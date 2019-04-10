@@ -30,4 +30,16 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/back" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="49dp"
+        android:gravity="center_horizontal"
+        android:text="@string/Adress"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 </RelativeLayout>
