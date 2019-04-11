@@ -38,7 +38,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="49dp"
         android:gravity="center_horizontal"
-        android:text="@string/Adress"
+        android:text="@string/call_history"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:textSize="24sp"
         android:textStyle="bold" />

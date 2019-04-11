@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_adress)
         {
-            Intent intent = new Intent(this, AddressActivity.class);
+            Intent intent = new Intent(this, CallHistory.class);
             startActivity(intent);
 
         }

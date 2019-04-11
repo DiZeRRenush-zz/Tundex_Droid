@@ -21,12 +21,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".CallDroidActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".PaymentActivity"
+        <activity android:name=".CallHistory"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AddressActivity"
-           android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".CallDroidActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".PaymentActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SettingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
