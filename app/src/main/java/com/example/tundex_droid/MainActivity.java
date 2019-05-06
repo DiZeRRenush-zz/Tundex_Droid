@@ -38,7 +38,7 @@ import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.mapkit.mapview.MapView;
 
 public class MainActivity extends AppCompatActivity
-        implements OnClickListener , NavigationView.OnNavigationItemSelectedListener 
+        implements OnClickListener , NavigationView.OnNavigationItemSelectedListener{
 
     String[] droid;
 
@@ -143,8 +143,8 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_sing_in) {
 
-          //  Intent intent = new Intent(this, LoginActivity.class);
-          //  startActivity(intent);
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
 
         }
 
