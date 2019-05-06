@@ -73,14 +73,14 @@ public class MapsActivity extends Activity implements UserLocationObjectListener
 
         CompositeIcon pinIcon = userLocationView.getPin().useCompositeIcon();
 
-        pinIcon.setIcon(
+      /*  pinIcon.setIcon(
                 "icon",
                 ImageProvider.fromResource(this, R.drawable.icon),
                 new IconStyle().setAnchor(new PointF(0f, 0f))
                         .setRotationType(RotationType.ROTATE)
                         .setZIndex(0f)
                         .setScale(1f)
-        );
+        );*/
 
         pinIcon.setIcon(
                 "pin",
@@ -91,7 +91,7 @@ public class MapsActivity extends Activity implements UserLocationObjectListener
                         .setScale(0.5f)
         );
 
-        userLocationView.getAccuracyCircle().setFillColor(Color.BLUE);
+      //  userLocationView.getAccuracyCircle().setFillColor(Color.BLUE);
     }
 
     @Override

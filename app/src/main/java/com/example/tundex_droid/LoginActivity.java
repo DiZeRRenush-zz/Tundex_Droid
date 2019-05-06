@@ -1,4 +1,4 @@
-package com.example.tundex_droid;
+/*package com.example.tundex_droid;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -433,4 +433,4 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         }
     }
 }
-
+*/
