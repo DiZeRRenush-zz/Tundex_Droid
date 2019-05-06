@@ -1,10 +1,15 @@
 package com.example.tundex_droid;
+import android.annotation.SuppressLint;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,28 +19,13 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.content.Intent;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 
 
-import com.yandex.mapkit.MapKitFactory;
-import com.yandex.mapkit.geometry.Point;
-import com.yandex.mapkit.layers.ObjectEvent;
-import com.yandex.mapkit.map.CameraPosition;
-import com.yandex.mapkit.map.CompositeIcon;
-import com.yandex.mapkit.map.IconStyle;
-import com.yandex.mapkit.map.RotationType;
-import com.yandex.mapkit.mapview.MapView;
-import com.yandex.mapkit.user_location.UserLocationLayer;
-import com.yandex.mapkit.user_location.UserLocationObjectListener;
-import com.yandex.mapkit.user_location.UserLocationView;
-import com.yandex.runtime.image.ImageProvider;
-
-import com.yandex.mapkit.Animation;
-import com.yandex.mapkit.MapKitFactory;
-import com.yandex.mapkit.geometry.Point;
-import com.yandex.mapkit.map.CameraPosition;
-
-import com.yandex.mapkit.mapview.MapView;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class MainActivity extends AppCompatActivity
         implements OnClickListener , NavigationView.OnNavigationItemSelectedListener{
@@ -43,6 +33,45 @@ public class MainActivity extends AppCompatActivity
     String[] droid;
 
     TextView selection;
+
+    Connection con;
+    String un, pass, db, ip;
+
+    @SuppressLint("NewApi")
+    public Connection connectoinclass(String user, String password, String database, String server)
+    {
+        int sdk_int = Build.VERSION.SDK_INT;
+        if (sdk_int > 8) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                    .detectAll()
+                    .penaltyLog()
+                    .build();
+            StrictMode.setThreadPolicy(policy);
+        }
+        Connection connection = null;
+        String connectionURL = null;
+        try{
+            Class.forName("net.soursforge.jtds.jdbc.Driver");
+            connectionURL = "jdbc:jtds:sqlserver//" + server + database + ";user=" + user + ";password=" + password + ";";
+            connection = DriverManager.getConnection(connectionURL);
+        }
+        catch (SQLException se)
+        {
+            Log.e("error here 1 : ", se.getMessage());
+        }
+        catch (ClassNotFoundException e)
+        {
+            Log.e("error 2: ", e.getMessage());
+        }
+        catch (Exception e)
+        {
+            Log.e("error 3: ", e.getMessage());
+        }
+        return connection;
+    }
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +83,60 @@ public class MainActivity extends AppCompatActivity
         findViewById(R.id.nav_bar_open).setOnClickListener(this);
         findViewById(R.id.btn_call_droid).setOnClickListener(this);
 
+        ip ="localhost";
+        db = "robotsandusers";
+        un = "mysql";
+        pass = "mysql";
 
+        class CheckLogin extends AsyncTask<String,String,String>
+        {
+            String z = "";
+            Boolean IsSuccsess = false, isFree;
+
+            double LAT, ION;
+            @Override
+            protected String doInBackground(String... params)
+            {
+                TextView typeR = (TextView) findViewById(R.id.selection);
+                String type =  typeR.getText().toString();
+                if (type.trim().equals(""))
+                {
+                    z = "fail";
+                }
+                else
+                {
+                    try {
+                        con = connectoinclass(un,pass,db,ip);
+                        if (con == null)
+                        {
+                            z = "no Internet";
+                        }
+                        else
+                        {
+                            String query = "select * from robots where type=" + type.toString();
+                            Statement atmt = con.createStatement();
+                            ResultSet rs = atmt.executeQuery(query);
+                            if (rs.next())
+                            {
+                                z = "Yes!";
+                                IsSuccsess = true;
+                                con.close();
+                            }
+                            else {
+                                z = "nope";
+                                IsSuccsess = false;
+                            }
+                        }
+                    }
+                    catch (Exception ex){
+                        IsSuccsess = false;
+                        z = ex.getMessage();
+                    }
+
+                }
+                return z;
+            }
+        }
 
 
 
@@ -70,7 +152,7 @@ public class MainActivity extends AppCompatActivity
 //Spinner
         selection = (TextView) findViewById(R.id.selection);
 
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        Spinner spinner = (Spinner) findViewById(R.id.spinner); //1!!!!!!!!!!!!
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, droid);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -81,6 +163,7 @@ public class MainActivity extends AppCompatActivity
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = (String)parent.getItemAtPosition(position);
                 selection.setText(item);
+
             }
 
             @Override
@@ -107,7 +190,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -169,7 +251,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    }
+}
 
 
 

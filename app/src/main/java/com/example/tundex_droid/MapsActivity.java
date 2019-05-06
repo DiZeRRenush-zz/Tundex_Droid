@@ -1,5 +1,12 @@
 package com.example.tundex_droid;
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Button;
 import android.app.Activity;
@@ -21,11 +28,14 @@ import com.yandex.mapkit.user_location.UserLocationView;
 import com.yandex.runtime.image.ImageProvider;
 
 
+
 public class MapsActivity extends Activity implements UserLocationObjectListener {
     /**
      * Replace "your_api_key" with a valid developer key.
      * You can get it at the https://developer.tech.yandex.ru/ website.
      */
+
+
     private final String MAPKIT_API_KEY = "f75de670-3871-4602-b8ee-8447b27fe253";
 
     private MapView mapView;
@@ -101,4 +111,7 @@ public class MapsActivity extends Activity implements UserLocationObjectListener
     @Override
     public void onObjectUpdated(UserLocationView view, ObjectEvent event) {
     }
+
+
+
 }
