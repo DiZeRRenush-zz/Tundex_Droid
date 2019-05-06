@@ -142,8 +142,8 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_sing_in) {
 
-          //  Intent intent = new Intent(this, LoginActivity.class);
-          //  startActivity(intent);
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
 
         }
 
