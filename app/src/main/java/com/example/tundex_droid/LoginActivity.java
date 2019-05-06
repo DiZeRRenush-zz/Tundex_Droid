@@ -1,9 +1,12 @@
-package com.example.tundex_droid;
+/*package com.example.tundex_droid;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.os.AsyncTask;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,12 +16,12 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,8 +31,17 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -37,6 +49,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 public class LoginActivity extends AppCompatActivity implements OnClickListener , LoaderCallbacks<Cursor>  {
 
     Button btn_back;
+    Button login;
     private static final int REQUEST_READ_CONTACTS = 0;
 
 
@@ -54,10 +67,114 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private View mProgressView;
     private View mLoginFormView;
 
+    Connection con;
+    String un, pass, db, ip;
+
+    @SuppressLint("NewApi")
+    public Connection connectoinclass(String user, String password, String database, String server)
+    {
+        int sdk_int = Build.VERSION.SDK_INT;
+        if (sdk_int > 8) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy().Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+        Connection connection = null;
+        String connectionURL = null;
+        try{
+            Class.forName("net.soursforge.jtds.jdbc.Driver");
+            connectionURL = "jdbc:jtds:sqlserver"; //dopisat!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            connection = DriverManager.getConnection(connectionURL);
+        }
+        catch (SQLException se)
+        {
+            Log.e("error here 1 : ", se.getMessage());
+        }
+        catch (ClassNotFoundException e)
+        {
+            Log.e("error 2: ", e.getMessage());
+        }
+        catch (Exception e)
+        {
+            Log.e("error 3: ", e.getMessage());
+        }
+        return connection;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        login = (Button) findViewById(R.id.sign_in_button);
+
+        ip ="192.168.0.6";
+        db = "Robots";
+        un = "DESKTOP-U95BRLF\\vvp74";
+        pass = "";
+
+        class CheckLogin extends AsyncTask<String,String,String>
+        {
+            String z = "";
+            Boolean IsSuccsess = false;
+            String username, password;
+
+            @Override
+            protected String doInBackground(String... params)
+            {
+                 username = mPhoneView.getText().toString();
+                 password = mPasswordView.getText().toString();
+                if (username.trim().equals("") || password.trim().equals(""))
+                {
+                    z = "fail";
+                }
+                else
+                {
+                    try {
+                        con = connectoinclass(un,pass,db,ip);
+                        if (con == null)
+                        {
+                            z = "no Internet";
+                        }
+                        else
+                        {
+                            String query = "select ";// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            Statement atmt = con.createStatement();
+                            ResultSet rs = atmt.executeQuery(query);
+                            if (rs.next())
+                            {
+                                z = "Yes!";
+                                IsSuccsess = true;
+                                con.close();
+                            }
+                            else {
+                                z = "nope";
+                                IsSuccsess = false;
+                            }
+                        }
+                    }
+                    catch (Exception ex){
+                        IsSuccsess = false;
+                        z = ex.getMessage();
+                    }
+
+                }
+                return z;
+            }
+        }
+
+        login.setOnClickListener( new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                CheckLogin checkLogin = new CheckLogin();
+                checkLogin.execute();
+            }
+        });
+
+
+
+
         btn_back = (Button) findViewById(R.id.btn_back);
         btn_back.setOnClickListener(this);
         // Set up the login form.
@@ -316,4 +433,4 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         }
     }
 }
-
+*/

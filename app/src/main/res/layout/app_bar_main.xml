@@ -5,11 +5,6 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".MainActivity">
-    <fragment
-        android:id="@+id/mapView"
-        android:name="com.google.android.gms.maps.MapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 
 <android.support.design.widget.AppBarLayout
     android:layout_width="match_parent"
@@ -25,3 +20,4 @@ tools:context=".MainActivity">
         android:layout_height="40dp"
         android:background="@drawable/menu" />
 </android.support.design.widget.CoordinatorLayout>
+

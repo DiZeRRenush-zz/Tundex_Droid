@@ -16,18 +16,46 @@ import android.content.Intent;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+
+import com.yandex.mapkit.MapKitFactory;
+import com.yandex.mapkit.geometry.Point;
+import com.yandex.mapkit.layers.ObjectEvent;
+import com.yandex.mapkit.map.CameraPosition;
+import com.yandex.mapkit.map.CompositeIcon;
+import com.yandex.mapkit.map.IconStyle;
+import com.yandex.mapkit.map.RotationType;
+import com.yandex.mapkit.mapview.MapView;
+import com.yandex.mapkit.user_location.UserLocationLayer;
+import com.yandex.mapkit.user_location.UserLocationObjectListener;
+import com.yandex.mapkit.user_location.UserLocationView;
+import com.yandex.runtime.image.ImageProvider;
+
+import com.yandex.mapkit.Animation;
+import com.yandex.mapkit.MapKitFactory;
+import com.yandex.mapkit.geometry.Point;
+import com.yandex.mapkit.map.CameraPosition;
+
+import com.yandex.mapkit.mapview.MapView;
+
 public class MainActivity extends AppCompatActivity
-        implements OnClickListener , NavigationView.OnNavigationItemSelectedListener {
+        implements OnClickListener , NavigationView.OnNavigationItemSelectedListener 
 
     String[] droid;
+
     TextView selection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
+
     setContentView(R.layout.activity_main);
         findViewById(R.id.nav_bar_open).setOnClickListener(this);
         findViewById(R.id.btn_call_droid).setOnClickListener(this);
+
+
+
 
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -63,6 +91,7 @@ public class MainActivity extends AppCompatActivity
         spinner.setOnItemSelectedListener(itemSelectedListener);
 
 
+
     }
 
 
@@ -96,7 +125,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_payment)
         {
-            Intent intent = new Intent(this, PaymentActivity.class);
+            Intent intent = new Intent(this, MapsActivity.class);
             startActivity(intent);
 
         }
@@ -114,8 +143,8 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_sing_in) {
 
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
+          //  Intent intent = new Intent(this, LoginActivity.class);
+          //  startActivity(intent);
 
         }
 
@@ -140,8 +169,8 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    }
 
-}
 
 
 
