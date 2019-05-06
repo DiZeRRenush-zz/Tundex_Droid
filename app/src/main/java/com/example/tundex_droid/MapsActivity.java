@@ -1,5 +1,10 @@
 package com.example.tundex_droid;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.widget.TextView;
 import android.widget.Button;
 import android.app.Activity;
@@ -19,20 +24,18 @@ import com.yandex.mapkit.user_location.UserLocationLayer;
 import com.yandex.mapkit.user_location.UserLocationObjectListener;
 import com.yandex.mapkit.user_location.UserLocationView;
 import com.yandex.runtime.image.ImageProvider;
-
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MapsActivity extends Activity implements UserLocationObjectListener {
-    /**
-     * Replace "your_api_key" with a valid developer key.
-     * You can get it at the https://developer.tech.yandex.ru/ website.
-     */
-    private final String MAPKIT_API_KEY = "f75de670-3871-4602-b8ee-8447b27fe253";
 
+    private final String MAPKIT_API_KEY = "f75de670-3871-4602-b8ee-8447b27fe253";
     private MapView mapView;
     private UserLocationLayer userLocationLayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         MapKitFactory.setApiKey(MAPKIT_API_KEY);
         MapKitFactory.initialize(this);
         setContentView(R.layout.activity_maps);
@@ -101,4 +104,5 @@ public class MapsActivity extends Activity implements UserLocationObjectListener
     @Override
     public void onObjectUpdated(UserLocationView view, ObjectEvent event) {
     }
+
 }
