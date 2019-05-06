@@ -38,11 +38,10 @@ import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.mapkit.mapview.MapView;
 
 public class MainActivity extends AppCompatActivity
-        implements OnClickListener , NavigationView.OnNavigationItemSelectedListener {
+        implements OnClickListener , NavigationView.OnNavigationItemSelectedListener 
 
-    Button nav_bar_open;
-    Button call_droid_open;
-    String[] cities = {"Робот-строитель", "Робот-повар", "Робот-убийца", "Робот-уборщик","Робот-грузчик"};
+    String[] droid;
+
     TextView selection;
 
     @Override
@@ -51,10 +50,11 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
 
-        nav_bar_open = (Button) findViewById(R.id.nav_bar_open);
-        nav_bar_open.setOnClickListener(this);
-        call_droid_open = (Button) findViewById(R.id.btn_call_droid);
-        call_droid_open.setOnClickListener(this);
+    setContentView(R.layout.activity_main);
+        findViewById(R.id.nav_bar_open).setOnClickListener(this);
+        findViewById(R.id.btn_call_droid).setOnClickListener(this);
+
+
 
 
 
@@ -63,14 +63,15 @@ public class MainActivity extends AppCompatActivity
             this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
+        droid = getResources().getStringArray(R.array.droid);
+    
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 //Spinner
         selection = (TextView) findViewById(R.id.selection);
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, cities);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, droid);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinner.setAdapter(adapter);

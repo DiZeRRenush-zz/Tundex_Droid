@@ -24,9 +24,7 @@
         android:id="@+id/login_form"
         android:layout_width="369dp"
         android:layout_height="666dp"
-        android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:paddingTop="60dp">
 
@@ -59,10 +57,8 @@
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autofillHints=""
                     android:hint="@string/Password"
                     android:imeActionId="6"
-                    android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
