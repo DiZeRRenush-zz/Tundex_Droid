@@ -38,7 +38,7 @@ import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.mapkit.mapview.MapView;
 
 public class MainActivity extends AppCompatActivity
-        implements OnClickListener , NavigationView.OnNavigationItemSelectedListener 
+        implements OnClickListener , NavigationView.OnNavigationItemSelectedListener{
 
     String[] droid;
 
