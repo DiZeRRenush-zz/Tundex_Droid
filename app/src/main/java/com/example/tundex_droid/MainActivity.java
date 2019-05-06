@@ -16,8 +16,30 @@ import android.content.Intent;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+
+import com.yandex.mapkit.MapKitFactory;
+import com.yandex.mapkit.geometry.Point;
+import com.yandex.mapkit.layers.ObjectEvent;
+import com.yandex.mapkit.map.CameraPosition;
+import com.yandex.mapkit.map.CompositeIcon;
+import com.yandex.mapkit.map.IconStyle;
+import com.yandex.mapkit.map.RotationType;
+import com.yandex.mapkit.mapview.MapView;
+import com.yandex.mapkit.user_location.UserLocationLayer;
+import com.yandex.mapkit.user_location.UserLocationObjectListener;
+import com.yandex.mapkit.user_location.UserLocationView;
+import com.yandex.runtime.image.ImageProvider;
+
+import com.yandex.mapkit.Animation;
+import com.yandex.mapkit.MapKitFactory;
+import com.yandex.mapkit.geometry.Point;
+import com.yandex.mapkit.map.CameraPosition;
+
+import com.yandex.mapkit.mapview.MapView;
+
 public class MainActivity extends AppCompatActivity
         implements OnClickListener , NavigationView.OnNavigationItemSelectedListener {
+
     Button nav_bar_open;
     Button call_droid_open;
     String[] cities = {"Робот-строитель", "Робот-повар", "Робот-убийца", "Робот-уборщик","Робот-грузчик"};
@@ -25,12 +47,16 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+
         nav_bar_open = (Button) findViewById(R.id.nav_bar_open);
         nav_bar_open.setOnClickListener(this);
         call_droid_open = (Button) findViewById(R.id.btn_call_droid);
         call_droid_open.setOnClickListener(this);
+
+
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -62,6 +88,7 @@ public class MainActivity extends AppCompatActivity
             }
         };
         spinner.setOnItemSelectedListener(itemSelectedListener);
+
 
 
     }
@@ -97,7 +124,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_payment)
         {
-            Intent intent = new Intent(this, PaymentActivity.class);
+            Intent intent = new Intent(this, MapsActivity.class);
             startActivity(intent);
 
         }
@@ -141,8 +168,8 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    }
 
-}
 
 
 

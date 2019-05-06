@@ -108,4 +108,6 @@
     <string name="payment_method">Выберете способ оплаты</string>
     <string name="call_history">История вызовов</string>
     <string name="call_hystr">История заказов</string>
+    <string name="title_activity_login2">Sign in</string>
+    <string name="title_activity_map">MapActivity</string>
 </resources>
