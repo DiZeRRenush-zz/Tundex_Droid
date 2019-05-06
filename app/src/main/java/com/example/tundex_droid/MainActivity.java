@@ -1,7 +1,9 @@
 package com.example.tundex_droid;
+
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
@@ -21,17 +23,58 @@ import android.content.Intent;
 import android.view.View.OnClickListener;
 
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import com.yandex.mapkit.MapKitFactory;
+import com.yandex.mapkit.geometry.Point;
+import com.yandex.mapkit.layers.ObjectEvent;
+import com.yandex.mapkit.map.CameraPosition;
+import com.yandex.mapkit.map.CompositeIcon;
+import com.yandex.mapkit.map.IconStyle;
+import com.yandex.mapkit.map.RotationType;
+import com.yandex.mapkit.mapview.MapView;
+import com.yandex.mapkit.user_location.UserLocationLayer;
+import com.yandex.mapkit.user_location.UserLocationObjectListener;
+import com.yandex.mapkit.user_location.UserLocationView;
+import com.yandex.runtime.image.ImageProvider;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.widget.TextView;
+import android.widget.Button;
+import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.PointF;
+import com.yandex.mapkit.MapKitFactory;
+import com.yandex.mapkit.geometry.Point;
+import com.yandex.mapkit.layers.ObjectEvent;
+import com.yandex.mapkit.map.CameraPosition;
+import com.yandex.mapkit.map.CompositeIcon;
+import com.yandex.mapkit.map.IconStyle;
+import com.yandex.mapkit.map.RotationType;
+import com.yandex.mapkit.mapview.MapView;
+import com.yandex.mapkit.user_location.UserLocationLayer;
+import com.yandex.mapkit.user_location.UserLocationObjectListener;
+import com.yandex.mapkit.user_location.UserLocationView;
+import com.yandex.runtime.image.ImageProvider;
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+
 
 public class MainActivity extends AppCompatActivity
-        implements OnClickListener , NavigationView.OnNavigationItemSelectedListener{
+        implements UserLocationObjectListener,OnClickListener , NavigationView.OnNavigationItemSelectedListener{
 
     String[] droid;
-
+    private final String MAPKIT_API_KEY = "f75de670-3871-4602-b8ee-8447b27fe253";
+    private MapView mapView;
+    private UserLocationLayer userLocationLayer;
     TextView selection;
 
     Connection con;
@@ -75,7 +118,18 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, 1);
+            }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{ACCESS_COARSE_LOCATION}, 1);
+            }
+        }
+        MapKitFactory.setApiKey(MAPKIT_API_KEY);
+        MapKitFactory.initialize(this);
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
 
@@ -83,10 +137,20 @@ public class MainActivity extends AppCompatActivity
         findViewById(R.id.nav_bar_open).setOnClickListener(this);
         findViewById(R.id.btn_call_droid).setOnClickListener(this);
 
+
         ip ="localhost";
         db = "robotsandusers";
         un = "mysql";
         pass = "mysql";
+
+        mapView = (MapView) findViewById(R.id.mapview);
+        mapView.getMap().setRotateGesturesEnabled(false);
+        mapView.getMap().move(new CameraPosition(new Point(0, 0), 14, 0, 0));
+
+        userLocationLayer = mapView.getMap().getUserLocationLayer();
+        userLocationLayer.setEnabled(true);
+        userLocationLayer.setHeadingEnabled(true);
+        userLocationLayer.setObjectListener(this);
 
         class CheckLogin extends AsyncTask<String,String,String>
         {
@@ -207,7 +271,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_payment)
         {
-            Intent intent = new Intent(this, MapsActivity.class);
+            Intent intent = new Intent(this,PaymentActivity.class);
             startActivity(intent);
 
         }
@@ -249,6 +313,63 @@ public class MainActivity extends AppCompatActivity
             default:
                 break;
         }
+    }
+
+
+}
+
+    @Override
+    protected void onStop() {
+        mapView.onStop();
+        MapKitFactory.getInstance().onStop();
+        super.onStop();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        MapKitFactory.getInstance().onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    public void onObjectAdded(UserLocationView userLocationView) {
+        userLocationLayer.setAnchor(
+                new PointF((float)(mapView.getWidth() * 0.5), (float)(mapView.getHeight() * 0.5)),
+                new PointF((float)(mapView.getWidth() * 0.5), (float)(mapView.getHeight() * 0.83)));
+
+        userLocationView.getArrow().setIcon(ImageProvider.fromResource(
+                this, R.drawable.user_arrow));
+
+        CompositeIcon pinIcon = userLocationView.getPin().useCompositeIcon();
+
+      /*  pinIcon.setIcon(
+                "icon",
+                ImageProvider.fromResource(this, R.drawable.icon),
+                new IconStyle().setAnchor(new PointF(0f, 0f))
+                        .setRotationType(RotationType.ROTATE)
+                        .setZIndex(0f)
+                        .setScale(1f)
+        );*/
+
+        pinIcon.setIcon(
+                "pin",
+                ImageProvider.fromResource(this, R.drawable.search_result),
+                new IconStyle().setAnchor(new PointF(0.5f, 0.5f))
+                        .setRotationType(RotationType.ROTATE)
+                        .setZIndex(1f)
+                        .setScale(0.5f)
+        );
+
+        //  userLocationView.getAccuracyCircle().setFillColor(Color.BLUE);
+    }
+
+    @Override
+    public void onObjectRemoved(UserLocationView view) {
+    }
+
+    @Override
+    public void onObjectUpdated(UserLocationView view, ObjectEvent event) {
     }
 
 }
