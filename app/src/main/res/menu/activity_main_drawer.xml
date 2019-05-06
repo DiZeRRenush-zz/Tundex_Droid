@@ -7,7 +7,7 @@
         <item
             android:id="@+id/nav_adress"
             android:icon="@drawable/map"
-            android:title="@string/call_hystr" />
+            android:title="@string/call_history" />
         <item
             android:id="@+id/nav_payment"
             android:icon="@drawable/payment"
@@ -19,7 +19,7 @@
         <item
             android:id="@+id/nav_contact_us"
             android:icon="@drawable/ic_menu_send"
-            android:title="@string/contact_us" />
+            android:title="@string/Contact_us" />
 
         <item
             android:id="@+id/nav_sing_in"
