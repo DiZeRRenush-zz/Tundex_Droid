@@ -12,17 +12,13 @@
     tools:context=".LoginActivity">
 
 
-    <ScrollView
-        android:id="@+id/setting_form"
+    <ListView
+        android:id="@+id/lvMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:paddingTop="60dp">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2" />
 
-    </ScrollView>
+
 
     <Button
         android:id="@+id/btn_back"
@@ -35,36 +31,15 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/setting_form"
         android:layout_marginTop="60dp"
         android:gravity="center_horizontal"
-        android:text="@string/payment_method"
+        android:text="@string/Payment"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:textSize="30sp"
         android:textStyle="bold" />
 
-    <Switch
-        android:id="@+id/switch2"
-        android:layout_width="367dp"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/setting_form"
-        android:layout_alignEnd="@+id/setting_form"
-        android:layout_marginTop="140dp"
-        android:text="Наличные"
-        android:textSize="24sp"
-        android:textStyle="bold" />
 
-    <Switch
-        android:id="@+id/switch3"
-        android:layout_width="371dp"
-        android:layout_height="31dp"
-        android:layout_alignStart="@+id/setting_form"
-        android:layout_alignEnd="@+id/setting_form"
-        android:layout_marginTop="180dp"
-        android:text="Банковская карта"
-        android:textSize="24sp"
-        android:textStyle="bold" />
 
 </RelativeLayout>
