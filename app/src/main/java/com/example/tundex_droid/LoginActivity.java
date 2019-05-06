@@ -1,4 +1,4 @@
-/*package com.example.tundex_droid;
+package com.example.tundex_droid;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -75,14 +75,17 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     {
         int sdk_int = Build.VERSION.SDK_INT;
         if (sdk_int > 8) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy().Builder().permitAll().build();
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                    .detectAll()
+                    .penaltyLog()
+                    .build();
             StrictMode.setThreadPolicy(policy);
         }
         Connection connection = null;
         String connectionURL = null;
         try{
             Class.forName("net.soursforge.jtds.jdbc.Driver");
-            connectionURL = "jdbc:jtds:sqlserver"; //dopisat!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            connectionURL = "jdbc:jtds:sqlserver//" + server + database + ";user=" + user + ";password=" + password + ";";
             connection = DriverManager.getConnection(connectionURL);
         }
         catch (SQLException se)
@@ -107,10 +110,10 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
         login = (Button) findViewById(R.id.sign_in_button);
 
-        ip ="192.168.0.6";
-        db = "Robots";
-        un = "DESKTOP-U95BRLF\\vvp74";
-        pass = "";
+        ip ="localhost";
+        db = "robotsandusers";
+        un = "mysql";
+        pass = "mysql";
 
         class CheckLogin extends AsyncTask<String,String,String>
         {
@@ -137,7 +140,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                         }
                         else
                         {
-                            String query = "select ";// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            String query = "select * from login where user_name=" + username.toString() + "'and pass_word = '" + password.toString();
                             Statement atmt = con.createStatement();
                             ResultSet rs = atmt.executeQuery(query);
                             if (rs.next())
@@ -433,4 +436,4 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         }
     }
 }
-*/
+
