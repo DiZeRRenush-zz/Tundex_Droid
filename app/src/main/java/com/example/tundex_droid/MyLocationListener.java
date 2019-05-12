@@ -10,6 +10,7 @@ import android.content.Context;
 import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 import android.app.Activity;
+import java.util.List;
 
 
 public class MyLocationListener extends Activity implements LocationListener {
@@ -18,6 +19,25 @@ public class MyLocationListener extends Activity implements LocationListener {
 
 
     //Toast toast=Toast.makeText(getApplicationContext(),"hihi",Toast.LENGTH_LONG);toast.show();
+
+    static Location getLastKnownLocation(Context context) {
+
+        Context mContext = context;
+        LocationManager locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
+        List<String> providers = locationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            Location l = locationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
+    }
 
     public static String getMyLocPLS(Context context) {
 
@@ -51,20 +71,21 @@ public class MyLocationListener extends Activity implements LocationListener {
         if (locationManager == null) return "Can't update location";
 
         try {
-                curLoc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                curLoc = MyLocationListener.getLastKnownLocation(mContext);
+                //curLoc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
             if (curLoc == null) {
                 return "empty";
             } else {
                 latitude = curLoc.getLatitude();
                 longitude = curLoc.getLongitude();
+                return latitude + " " + longitude;
             }
         } catch (SecurityException e) {
             return "Error in rights";
         } catch (Exception e) {
             return "Error in vars";
         }
-        return "Seems like all OK";
         //return String.valueOf(latitude);
 
     }
