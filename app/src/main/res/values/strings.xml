@@ -126,6 +126,8 @@
     <string name="Pasword">Пароль</string>
     <string name="change_language">Change language</string>
     <string name="About_us">My project</string>
+    <string name="get_coords">Get coords</string>
+    <string name="your_coords">Your coords</string>
 
 
 </resources>

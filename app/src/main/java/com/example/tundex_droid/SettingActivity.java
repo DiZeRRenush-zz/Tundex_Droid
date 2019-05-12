@@ -22,6 +22,7 @@ public class SettingActivity extends AppCompatActivity implements OnClickListene
     Button btn_about;
     final int DIALOG_CHANGE=1;
     final int DIALOG_ABOUT=2;
+    final int DIALOG_GPS=3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,55 +55,68 @@ public class SettingActivity extends AppCompatActivity implements OnClickListene
         // вызываем диалог
         showDialog(DIALOG_ABOUT);
     }
+
+    public void onClickGps(View v) {
+        // вызываем диалог
+        showDialog(DIALOG_GPS);
+    }
    protected Dialog onCreateDialog(int id) {
         if(id==DIALOG_CHANGE){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.Pick_language)
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.Pick_language)
                 .setItems(R.array.Language, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Configuration config = new Configuration();
-                            switch(which){
-                                case 0:
-                                    String lang = "ru";
-                                    Locale locale = new Locale(lang);
-                                    Locale.setDefault(locale);
-                                    config.locale = locale;
-                                    getBaseContext().getResources().updateConfiguration(config,
-                                            getBaseContext().getResources().getDisplayMetrics());
-                                        break;
-                                case 1:
-                                    config.locale = Locale.ENGLISH;
+                    Configuration config = new Configuration();
+                        switch(which){
+                            case 0:
+                                String lang = "ru";
+                                Locale locale = new Locale(lang);
+                                Locale.setDefault(locale);
+                                config.locale = locale;
+                                getBaseContext().getResources().updateConfiguration(config,
+                                        getBaseContext().getResources().getDisplayMetrics());
                                     break;
-                            }
+                            case 1:
+                                config.locale = Locale.ENGLISH;
+                                break;
+                        }
 
-                        getResources().updateConfiguration(config, null);
-                        Intent mStartActivity = new Intent(context, MainActivity.class);
-                        int mPendingIntentId = 123456;
-                        PendingIntent mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
-                        AlarmManager mgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-                        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
-                        finish();
+                    getResources().updateConfiguration(config, null);
+                    Intent mStartActivity = new Intent(context, MainActivity.class);
+                    int mPendingIntentId = 123456;
+                    PendingIntent mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+                    AlarmManager mgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+                    mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+                    finish();
                     }
                 });
 
+                return builder.create();
 
-            return builder.create();
+            }
+            if(id==DIALOG_ABOUT){
+               AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(R.string.About_us)
+                   .setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
+                       public void onClick(DialogInterface dialog, int id) {
 
-        }
-       if(id==DIALOG_ABOUT){
-           AlertDialog.Builder builder = new AlertDialog.Builder(this);
-       builder.setMessage(R.string.About_us)
-               .setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
-
-                   }
-               });
-       // Create the AlertDialog object and return it
-       return builder.create();
-   }
+                       }
+                    });
+                // Create the AlertDialog object and return it
+                return builder.create();
+            }
+            if(id==DIALOG_GPS){
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                //hardcode debug
+                String curCoords= "0.00056;0.099";
+                builder.setTitle(R.string.your_coords)
+                    .setMessage(curCoords)
+                    .setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {}
+                    });
+                return builder.create();
+            }
        return super.onCreateDialog(id);
-
     }
-
 }
 

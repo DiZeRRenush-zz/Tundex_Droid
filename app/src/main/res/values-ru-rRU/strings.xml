@@ -127,6 +127,8 @@
     <string name="Pasword">Пароль</string>
     <string name="change_language">Сменить язык</string>
     <string name="About_us">Мой проект</string>
+    <string name="get_coords">Мои координаты</string>
+    <string name="your_coords">Ваши координаты</string>
 
 
 </resources>
