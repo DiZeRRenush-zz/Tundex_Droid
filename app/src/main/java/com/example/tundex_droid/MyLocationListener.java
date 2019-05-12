@@ -48,6 +48,8 @@ public class MyLocationListener extends Activity implements LocationListener {
                     MIN_TIME_BW_UPDATES,
                     MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
 
+        if (locationManager == null) return "Can't update location";
+
         try {
                 curLoc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
