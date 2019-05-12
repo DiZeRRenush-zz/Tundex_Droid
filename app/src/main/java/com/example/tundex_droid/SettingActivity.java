@@ -7,12 +7,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.res.Configuration;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -107,13 +109,21 @@ public class SettingActivity extends AppCompatActivity implements OnClickListene
             }
             if(id==DIALOG_GPS){
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+                MyLocationListener myLoc = new MyLocationListener();
+                String curLoc = myLoc.getMyLocPLS(getApplicationContext());
+                //Toast toast=Toast.makeText(getApplicationContext(),curLoc,Toast.LENGTH_LONG);toast.show();
+
                 //hardcode debug
                 String curCoords= "0.00056;0.099";
                 builder.setTitle(R.string.your_coords)
-                    .setMessage(curCoords)
+                    .setMessage(curLoc)
                     .setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {}
                     });
+
+
+
                 return builder.create();
             }
        return super.onCreateDialog(id);
